@@ -47,7 +47,7 @@ public class BetMapper implements AbstractMapper<Bet, BetDto> {
         bet.setFixRate(dto.getFixRate());
         bet.setBetVector(createBetVector(dto.getBetVector()));
         bet.setCurrency(createCurrency(dto.getCurrency()));
-        bet.setUser(createUser(dto.getUser()));
+        bet.setUser(createUser(dto.getUserId()));
         return bet;
     }
 

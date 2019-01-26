@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BetDto extends AbstractDto {
 
-    private Long user;
+    private Long userId;
     private Long amount;
     private Long currency;
     private Integer betVector;
@@ -31,7 +31,7 @@ public class BetDto extends AbstractDto {
                   Integer betVector,
                   Long fixRate) {
         super(id, created);
-        this.user = user;
+        this.userId = user;
         this.amount = amount;
         this.currency = currency;
         this.betVector = betVector;
