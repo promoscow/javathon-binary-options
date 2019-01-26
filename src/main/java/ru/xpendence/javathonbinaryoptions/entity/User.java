@@ -1,8 +1,8 @@
 package ru.xpendence.javathonbinaryoptions.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,10 +14,14 @@ import java.util.List;
  * e-mail: 2262288@gmail.com
  */
 @Entity
-@Table(name = "currencies")
+@Table(name = "users")
 @EqualsAndHashCode(callSuper = true)
 @ToString
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SQLDelete(sql = "UPDATE users SET active = 0 WHERE id = ?")
+@Where(clause = "active = 1")
 public class User extends AbstractEntity {
 
     private Long balance;

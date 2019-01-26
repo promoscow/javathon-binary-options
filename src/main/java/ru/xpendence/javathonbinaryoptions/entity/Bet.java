@@ -1,8 +1,8 @@
 package ru.xpendence.javathonbinaryoptions.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import ru.xpendence.javathonbinaryoptions.attributes.BetVector;
 
 import javax.persistence.*;
@@ -18,6 +18,10 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SQLDelete(sql = "UPDATE bets SET active = 0 WHERE id = ?")
+@Where(clause = "active = 1")
 public class Bet extends AbstractEntity {
 
     private User user;
