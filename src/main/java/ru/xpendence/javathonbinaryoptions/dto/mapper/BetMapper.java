@@ -24,9 +24,7 @@ import java.util.Objects;
 public class BetMapper implements AbstractMapper<Bet, BetDto> {
 
     private final BetRepository betRepository;
-
     private final UserRepository userRepository;
-
     private final CurrencyRepository currencyRepository;
 
     @Autowired
@@ -41,6 +39,9 @@ public class BetMapper implements AbstractMapper<Bet, BetDto> {
     @Override
     public Bet toEntity(BetDto dto) {
         Bet bet = betRepository.getOne(dto.getId());
+        if (Objects.isNull(bet)) {
+            return null;
+        }
         bet.setId(dto.getId());
         bet.setAmount(dto.getAmount());
         bet.setCreated(dto.getCreated());
