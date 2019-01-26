@@ -2,6 +2,7 @@ package ru.xpendence.javathonbinaryoptions.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.xpendence.javathonbinaryoptions.dto.BetDto;
 import ru.xpendence.javathonbinaryoptions.repository.BetRepository;
 
 /**
@@ -18,5 +19,10 @@ public class BetServiceImpl implements BetService {
     @Autowired
     public BetServiceImpl(BetRepository repository) {
         this.repository = repository;
+    }
+
+    @Override
+    public BetDto create(BetDto bet) {
+        return null;
     }
 }
