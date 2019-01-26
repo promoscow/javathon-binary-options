@@ -17,4 +17,5 @@ public class UserDto extends AbstractDto {
 
     private Long balance;
     private List<Long> bets;
+    private Boolean generated;
 }
