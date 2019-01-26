@@ -1,6 +1,8 @@
 package ru.xpendence.javathonbinaryoptions.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.xpendence.javathonbinaryoptions.repository.CurrencyRepository;
 
 /**
  * Author: Vyacheslav Chernyshov
@@ -10,4 +12,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CurrencyServiceImpl implements CurrencyService {
+
+    private final CurrencyRepository repository;
+
+    @Autowired
+    public CurrencyServiceImpl(CurrencyRepository repository) {
+        this.repository = repository;
+    }
 }

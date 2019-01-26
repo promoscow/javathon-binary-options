@@ -3,22 +3,22 @@ package ru.xpendence.javathonbinaryoptions.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.xpendence.javathonbinaryoptions.service.UserService;
+import ru.xpendence.javathonbinaryoptions.service.CurrencyService;
 
 /**
  * Author: Vyacheslav Chernyshov
  * Date: 26.01.19
- * Time: 17:48
+ * Time: 18:46
  * e-mail: 2262288@gmail.com
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/currency")
+public class CurrencyController {
 
-    private final UserService service;
+    private final CurrencyService service;
 
     @Autowired
-    public UserController(UserService service) {
+    public CurrencyController(CurrencyService service) {
         this.service = service;
     }
 }
