@@ -2,6 +2,7 @@ package ru.xpendence.javathonbinaryoptions.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.xpendence.javathonbinaryoptions.dto.BetDto;
 import ru.xpendence.javathonbinaryoptions.dto.mapper.AbstractMapper;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
@@ -27,7 +28,13 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
+    @Transactional
     public BetDto create(BetDto bet) {
-        return mapper.toDto(repository.save(mapper.toEntity(bet)));
+        return mapper.toDto(repository.save(createFixRate(bet)));
+    }
+
+    private Bet createFixRate(BetDto bet) {
+        Bet entity = mapper.toEntity(bet);
+        return entity;
     }
 }

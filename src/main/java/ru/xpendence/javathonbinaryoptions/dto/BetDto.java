@@ -3,6 +3,7 @@ package ru.xpendence.javathonbinaryoptions.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import ru.xpendence.javathonbinaryoptions.entity.Currency;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +20,7 @@ public class BetDto extends AbstractDto {
 
     private Long userId;
     private Long amount;
-    private Long currency;
+    private Currency currency;
     private Integer betVector;
     private Long fixRate;
 
@@ -27,7 +28,7 @@ public class BetDto extends AbstractDto {
                   LocalDateTime created,
                   Long user,
                   Long amount,
-                  Long currency,
+                  Currency currency,
                   Integer betVector,
                   Long fixRate) {
         super(id, created);
