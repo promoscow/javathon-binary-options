@@ -3,6 +3,8 @@ package ru.xpendence.javathonbinaryoptions.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.xpendence.javathonbinaryoptions.dto.BetDto;
+import ru.xpendence.javathonbinaryoptions.dto.mapper.AbstractMapper;
+import ru.xpendence.javathonbinaryoptions.entity.Bet;
 import ru.xpendence.javathonbinaryoptions.repository.BetRepository;
 
 /**
@@ -15,14 +17,17 @@ import ru.xpendence.javathonbinaryoptions.repository.BetRepository;
 public class BetServiceImpl implements BetService {
 
     private BetRepository repository;
+    private final AbstractMapper<Bet, BetDto> mapper;
 
     @Autowired
-    public BetServiceImpl(BetRepository repository) {
+    public BetServiceImpl(BetRepository repository,
+                          AbstractMapper<Bet, BetDto> mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
     public BetDto create(BetDto bet) {
-        return null;
+        return mapper.toDto(repository.save(mapper.toEntity(bet)));
     }
 }

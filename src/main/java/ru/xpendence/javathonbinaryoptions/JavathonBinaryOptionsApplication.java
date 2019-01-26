@@ -8,7 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(scanBasePackages = {
         "ru.xpendence.javathonbinaryoptions.service",
         "ru.xpendence.javathonbinaryoptions.repository",
-        "ru.xpendence.javathonbinaryoptions.controller"
+        "ru.xpendence.javathonbinaryoptions.controller",
+        "ru.xpendence.javathonbinaryoptions.dto.mapper"
 })
 @EnableJpaRepositories
 @EntityScan(basePackages = "ru.xpendence.javathonbinaryoptions.entity")
