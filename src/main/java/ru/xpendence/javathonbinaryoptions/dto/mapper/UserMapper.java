@@ -33,6 +33,9 @@ public class UserMapper implements AbstractMapper<User, UserDto> {
 
     @Override
     public User toEntity(UserDto dto) {
+        if (Objects.isNull(dto) || Objects.isNull(dto.getId())) {
+            return null;
+        }
         User user = userRepository.getOne(dto.getId());
         if (Objects.isNull(user)) {
             return null;
