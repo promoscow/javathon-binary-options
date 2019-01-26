@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -16,4 +17,6 @@ import java.util.List;
 public interface BetRepository extends JpaRepository<Bet, Long> {
 
     List<Bet> findAllByIdIn(List<Long> list);
+
+    List<Bet> findAllByExpiresInBefore(LocalDateTime dateTime);
 }

@@ -16,7 +16,6 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
 @NoArgsConstructor
 public class UserDto extends AbstractDto {
 
@@ -35,6 +34,12 @@ public class UserDto extends AbstractDto {
         this.name = name;
         this.balance = balance;
         this.bets = bets;
+        this.generated = generated;
+    }
+
+    @Builder
+    public UserDto(Long balance, Boolean generated) {
+        this.balance = balance;
         this.generated = generated;
     }
 }
