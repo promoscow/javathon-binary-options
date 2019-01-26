@@ -32,4 +32,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compile group: 'com.yahoofinance-api', name: 'YahooFinanceAPI', version: '3.14.0'
+
 }
