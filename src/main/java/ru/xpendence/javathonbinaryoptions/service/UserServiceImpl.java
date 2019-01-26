@@ -48,4 +48,9 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<User> saveAll(List<User> users) {
+        return repository.saveAll(users);
+    }
 }

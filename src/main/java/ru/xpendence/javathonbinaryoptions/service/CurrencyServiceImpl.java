@@ -3,6 +3,8 @@ package ru.xpendence.javathonbinaryoptions.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.xpendence.javathonbinaryoptions.attributes.CurrencyCode;
+import ru.xpendence.javathonbinaryoptions.dto.CurrencyDto;
+import ru.xpendence.javathonbinaryoptions.dto.mapper.AbstractMapper;
 import ru.xpendence.javathonbinaryoptions.entity.Currency;
 import ru.xpendence.javathonbinaryoptions.repository.CurrencyRepository;
 import yahoofinance.Stock;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Author: Artur Sharafutdinov
@@ -25,6 +28,7 @@ import java.util.Map;
 public class CurrencyServiceImpl implements CurrencyService {
 
     private final CurrencyRepository repository;
+    private final AbstractMapper<Currency, CurrencyDto> mapper;
     private List<Currency> listCurrency;
     private String currencyCode;
     private String[] arrayCode;
@@ -32,8 +36,10 @@ public class CurrencyServiceImpl implements CurrencyService {
     private Map<String, Stock> mapCurrency;
 
     @Autowired
-    public CurrencyServiceImpl(CurrencyRepository repository) {
+    public CurrencyServiceImpl(CurrencyRepository repository,
+                               AbstractMapper<Currency, CurrencyDto> mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @PostConstruct
@@ -41,6 +47,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 //        repository.saveAll(preStartList());
     }
 
+    @Override
     public List<Currency> preStartList() {
         arrayCode = new String[10];
         listCurrency = new ArrayList<>();
@@ -71,11 +78,12 @@ public class CurrencyServiceImpl implements CurrencyService {
             });
 
         });
-
-
         return listCurrency;
     }
 
-
+    @Override
+    public List<CurrencyDto> getAll() {
+        return preStartList().stream().map(mapper::toDto).collect(Collectors.toList());
+    }
 
 }

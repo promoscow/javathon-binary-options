@@ -1,6 +1,7 @@
 package ru.xpendence.javathonbinaryoptions.service;
 
 import ru.xpendence.javathonbinaryoptions.dto.UserDto;
+import ru.xpendence.javathonbinaryoptions.entity.User;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface UserService {
     UserDto generateUser();
 
     List<UserDto> getAllActive(boolean generated);
+
+    List<User> saveAll(List<User> users);
 }
