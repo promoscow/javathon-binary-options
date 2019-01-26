@@ -12,7 +12,9 @@ import ru.xpendence.javathonbinaryoptions.repository.CurrencyRepository;
 import ru.xpendence.javathonbinaryoptions.repository.UserRepository;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Author: Vyacheslav Chernyshov
@@ -78,5 +80,9 @@ public class BetMapper implements AbstractMapper<Bet, BetDto> {
                 entity.getBetVector().getId(),
                 entity.getFixRate()
         ) : null;
+    }
+
+    public List<BetDto> toDto(List<Bet> bets) {
+        return bets.stream().map(this::toDto).collect(Collectors.toList());
     }
 }

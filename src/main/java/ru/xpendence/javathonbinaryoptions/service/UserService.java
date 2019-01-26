@@ -1,5 +1,9 @@
 package ru.xpendence.javathonbinaryoptions.service;
 
+import ru.xpendence.javathonbinaryoptions.dto.UserDto;
+
+import java.util.List;
+
 /**
  * Author: Vyacheslav Chernyshov
  * Date: 26.01.19
@@ -7,4 +11,9 @@ package ru.xpendence.javathonbinaryoptions.service;
  * e-mail: 2262288@gmail.com
  */
 public interface UserService {
+    UserDto createOrUpdate(UserDto user);
+
+    UserDto generateUser();
+
+    List<UserDto> getAllActive(boolean generated);
 }

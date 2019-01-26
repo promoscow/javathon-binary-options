@@ -34,6 +34,10 @@ public class Bet extends AbstractEntity {
     private BetVector betVector;
     private Long fixRate;
 
+    public Bet(User user, Long amount, Currency currency, BetVector betVector, Long fixRate) {
+        this(null, null, null, ActiveType.ENABLED, user, amount, currency, betVector, fixRate);
+    }
+
     public Bet(Long id,
                LocalDateTime created,
                LocalDateTime updated,

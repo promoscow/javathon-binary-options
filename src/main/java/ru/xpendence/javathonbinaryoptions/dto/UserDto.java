@@ -1,5 +1,6 @@
 package ru.xpendence.javathonbinaryoptions.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
 @NoArgsConstructor
 public class UserDto extends AbstractDto {
 
