@@ -9,6 +9,7 @@ import ru.xpendence.javathonbinaryoptions.dto.mapper.BetMapper;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
 import ru.xpendence.javathonbinaryoptions.entity.Currency;
 import ru.xpendence.javathonbinaryoptions.entity.User;
+import ru.xpendence.javathonbinaryoptions.exception.BetException;
 import ru.xpendence.javathonbinaryoptions.repository.BetRepository;
 import ru.xpendence.javathonbinaryoptions.repository.CurrencyRepository;
 import ru.xpendence.javathonbinaryoptions.repository.UserRepository;
@@ -38,12 +39,23 @@ public class BetServiceImpl implements BetService {
     @Override
     @Transactional
     public BetDto create(BetDto bet) {
+        doBet(bet);
         return mapper.toDto(repository.save(createFixRate(bet)));
     }
 
     @Override
     public List<Bet> getAllActiveBetsExpired() {
         return repository.findAllByExpiresInBefore(LocalDateTime.now());
+    }
+
+    private void doBet(BetDto bet) {
+        User user = userRepository.getOne(bet.getId());
+        Long balance = user.getBalance();
+        if (balance < bet.getAmount()) {
+            throw new BetException("Not much money to perform bet.");
+        }
+        user.setBalance(user.getBalance() - bet.getAmount());
+        userRepository.save(user);
     }
 
     private Bet createFixRate(BetDto bet) {

@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.xpendence.javathonbinaryoptions.attributes.BetVector;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
 import ru.xpendence.javathonbinaryoptions.entity.Currency;
 import ru.xpendence.javathonbinaryoptions.entity.User;
+import ru.xpendence.javathonbinaryoptions.exception.CurrencyException;
 import ru.xpendence.javathonbinaryoptions.service.BetService;
 import ru.xpendence.javathonbinaryoptions.service.CurrencyService;
 import ru.xpendence.javathonbinaryoptions.service.UserService;
@@ -40,11 +42,6 @@ public class BetServiceScheduledImpl implements BetServiceScheduled {
     @Override
     @Transactional
     public void betResult() {
-        //берём все активные ставки
-        //рассчитываем, каким подошёл срок
-        //берём валюты
-        //начисляем
-        //сохраняем в аккаунты
         List<Bet> expired = betService.getAllActiveBetsExpired();
         List<Currency> actualCurrencies = currencyService.preStartList();
         userService.saveAll(expired
@@ -58,9 +55,24 @@ public class BetServiceScheduledImpl implements BetServiceScheduled {
     }
 
     private Long editBalance(Bet bet, User user, List<Currency> actualCurrencies) {
-        Long balance = user.getBalance();
-        Long amount = bet.getAmount();
+        BetVector vector = bet.getBetVector();
+        Currency currency = actualCurrencies
+                .stream()
+                .filter(c -> c.getCode().equals(bet.getCurrency().getCode()))
+                .findFirst()
+                .orElseThrow(() -> new CurrencyException("No such currency"));
+        BetVector actualVector = checkActualVector(currency.getRate(), bet.getFixRate());
+        if (vector.equals(actualVector)) {
+            return calculatePriceForWin(bet, user);
+        }
+        return user.getBalance();
+    }
 
-        return null;
+    private long calculatePriceForWin(Bet bet, User user) {
+        return user.getBalance() + bet.getAmount() * 180 / 100;
+    }
+
+    private BetVector checkActualVector(Long rate, Long fixRate) {
+        return rate.equals(fixRate) ? BetVector.DRAW : rate > fixRate ? BetVector.DOWN : BetVector.UP;
     }
 }
