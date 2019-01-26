@@ -23,6 +23,7 @@ public class BetDto extends AbstractDto {
     private Currency currency;
     private Integer betVector;
     private Long fixRate;
+    private LocalDateTime expiresIn;
 
     public BetDto(Long id,
                   LocalDateTime created,
@@ -30,12 +31,14 @@ public class BetDto extends AbstractDto {
                   Long amount,
                   Currency currency,
                   Integer betVector,
-                  Long fixRate) {
+                  Long fixRate,
+                  LocalDateTime expiresIn) {
         super(id, created);
         this.userId = user;
         this.amount = amount;
         this.currency = currency;
         this.betVector = betVector;
         this.fixRate = fixRate;
+        this.expiresIn = expiresIn;
     }
 }

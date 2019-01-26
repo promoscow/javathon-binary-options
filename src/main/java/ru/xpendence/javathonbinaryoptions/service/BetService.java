@@ -1,6 +1,7 @@
 package ru.xpendence.javathonbinaryoptions.service;
 
 import ru.xpendence.javathonbinaryoptions.dto.BetDto;
+import ru.xpendence.javathonbinaryoptions.entity.Bet;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ import java.util.List;
 public interface BetService {
 
     BetDto create(BetDto bet);
+
+    List<Bet> getAllActiveBetsExpired();
 
     List<BetDto> generate();
 }

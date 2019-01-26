@@ -54,6 +54,7 @@ public class BetMapper implements AbstractMapper<Bet, BetDto> {
         bet.setBetVector(createBetVector(dto.getBetVector()));
         bet.setCurrency(dto.getCurrency());
         bet.setUser(createUser(dto.getUserId()));
+        bet.setExpiresIn(dto.getExpiresIn());
         return bet;
     }
 
@@ -78,7 +79,8 @@ public class BetMapper implements AbstractMapper<Bet, BetDto> {
                 entity.getAmount(),
                 Objects.nonNull(entity.getCurrency()) ? entity.getCurrency() : null,
                 entity.getBetVector().getId(),
-                entity.getFixRate()
+                entity.getFixRate(),
+                entity.getExpiresIn()
         ) : null;
     }
 

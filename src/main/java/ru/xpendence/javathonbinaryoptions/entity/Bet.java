@@ -33,9 +33,10 @@ public class Bet extends AbstractEntity {
     private Currency currency;
     private BetVector betVector;
     private Long fixRate;
+    private LocalDateTime expiresIn;
 
-    public Bet(User user, Long amount, Currency currency, BetVector betVector, Long fixRate) {
-        this(null, null, null, ActiveType.ENABLED, user, amount, currency, betVector, fixRate);
+    public Bet(User user, Long amount, Currency currency, BetVector betVector, Long fixRate, LocalDateTime expiresIn) {
+        this(null, null, null, ActiveType.ENABLED, user, amount, currency, betVector, fixRate, expiresIn);
     }
 
     public Bet(Long id,
@@ -46,13 +47,15 @@ public class Bet extends AbstractEntity {
                Long amount,
                Currency currency,
                BetVector betVector,
-               Long fixRate) {
+               Long fixRate,
+               LocalDateTime expiresIn) {
         super(id, created, updated, active);
         this.user = user;
         this.amount = amount;
         this.currency = currency;
         this.betVector = betVector;
         this.fixRate = fixRate;
+        this.expiresIn = expiresIn;
     }
 
     /**
@@ -95,5 +98,10 @@ public class Bet extends AbstractEntity {
     @Column(name = "fix_rate")
     public Long getFixRate() {
         return fixRate;
+    }
+
+    @Column(name = "expires_in")
+    public LocalDateTime getExpiresIn() {
+        return expiresIn;
     }
 }

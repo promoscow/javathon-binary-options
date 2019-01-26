@@ -13,7 +13,9 @@ import ru.xpendence.javathonbinaryoptions.repository.BetRepository;
 import ru.xpendence.javathonbinaryoptions.repository.CurrencyRepository;
 import ru.xpendence.javathonbinaryoptions.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static java.util.concurrent.ThreadLocalRandom.current;
@@ -39,6 +41,11 @@ public class BetServiceImpl implements BetService {
         return mapper.toDto(repository.save(createFixRate(bet)));
     }
 
+    @Override
+    public List<Bet> getAllActiveBetsExpired() {
+        return repository.findAllByExpiresInBefore(LocalDateTime.now());
+    }
+
     private Bet createFixRate(BetDto bet) {
         Bet entity = mapper.toEntity(bet);
         entity.setFixRate(bet.getCurrency().getRate());
@@ -58,6 +65,6 @@ public class BetServiceImpl implements BetService {
 
     private Bet generateBet(List<Currency> allCurr, User user) {
         Currency currency = allCurr.get(current().nextInt(allCurr.size()));
-        return new Bet(user, current().nextLong(1, user.getBalance()), currency, BetVector.randomVector(), currency.getRate());
+        return new Bet(user, current().nextLong(1, user.getBalance()), currency, BetVector.randomVector(), currency.getRate(), LocalDateTime.now().plusMinutes(new Random().nextInt(3) + 1));
     }
 }
