@@ -1,6 +1,7 @@
 package ru.xpendence.javathonbinaryoptions.entity;
 
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import ru.xpendence.javathonbinaryoptions.attributes.ActiveType;
@@ -19,6 +20,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 
@@ -27,13 +29,20 @@ public abstract class AbstractEntity implements Serializable {
     private LocalDateTime updated;
     private ActiveType active = ActiveType.ENABLED;
 
+    public AbstractEntity(Long id, LocalDateTime created, LocalDateTime updated, ActiveType active) {
+        this.id = id;
+        this.created = created;
+        this.updated = updated;
+        this.active = active;
+    }
+
     @Id
     public Long getId() {
         return id;
     }
 
     @Column(name = "created", updatable = false)
-    private LocalDateTime getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 

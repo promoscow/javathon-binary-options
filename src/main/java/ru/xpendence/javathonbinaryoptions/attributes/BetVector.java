@@ -7,7 +7,17 @@ package ru.xpendence.javathonbinaryoptions.attributes;
  * e-mail: 2262288@gmail.com
  */
 public enum BetVector {
-    UP,
-    DOWN,
-    DRAW
+    UP(0),
+    DOWN(1),
+    DRAW(2);
+
+    private Integer id;
+
+    BetVector(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
 }

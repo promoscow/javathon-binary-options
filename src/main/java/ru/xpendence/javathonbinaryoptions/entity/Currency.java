@@ -24,6 +24,7 @@ import java.util.List;
 @Where(clause = "active = 1")
 public class Currency extends AbstractEntity {
 
+    // TODO: 26.01.19 возможно, лучше будет выпилить этот лист
     private List<Bet> bets;
     private String code;
     private Long rate;

@@ -1,5 +1,6 @@
 package ru.xpendence.javathonbinaryoptions.dto.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.xpendence.javathonbinaryoptions.dto.CurrencyDto;
 import ru.xpendence.javathonbinaryoptions.entity.Currency;
 
@@ -9,6 +10,7 @@ import ru.xpendence.javathonbinaryoptions.entity.Currency;
  * Time: 21:12
  * e-mail: 2262288@gmail.com
  */
+@Component
 public class CurrencyMapper implements AbstractMapper<Currency, CurrencyDto> {
 
     @Override

@@ -6,9 +6,11 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import ru.xpendence.javathonbinaryoptions.attributes.ActiveType;
 import ru.xpendence.javathonbinaryoptions.attributes.BetVector;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * Author: Vyacheslav Chernyshov
@@ -20,8 +22,8 @@ import javax.persistence.*;
 @Table(name = "bets")
 @EqualsAndHashCode(callSuper = true)
 @ToString
-@Setter
 @NoArgsConstructor
+@Setter
 @SQLDelete(sql = "UPDATE bets SET active = 0 WHERE id = ?")
 @Where(clause = "active = 1")
 public class Bet extends AbstractEntity {
@@ -32,19 +34,22 @@ public class Bet extends AbstractEntity {
     private BetVector betVector;
     private Long fixRate;
 
-    public Bet(User user,
+    public Bet(Long id,
+               LocalDateTime created,
+               LocalDateTime updated,
+               ActiveType active,
+               User user,
                Long amount,
                Currency currency,
                BetVector betVector,
                Long fixRate) {
+        super(id, created, updated, active);
         this.user = user;
         this.amount = amount;
         this.currency = currency;
         this.betVector = betVector;
         this.fixRate = fixRate;
     }
-
-
 
     /**
      * Пользователь, который делает ставку.

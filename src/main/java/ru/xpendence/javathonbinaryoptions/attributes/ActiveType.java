@@ -7,6 +7,16 @@ package ru.xpendence.javathonbinaryoptions.attributes;
  * e-mail: 2262288@gmail.com
  */
 public enum ActiveType {
-    DISABLED,
-    ENABLED
+    DISABLED(0),
+    ENABLED(1);
+
+    private Integer id;
+
+    ActiveType(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
 }

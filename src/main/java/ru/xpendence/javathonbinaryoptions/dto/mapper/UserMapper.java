@@ -1,5 +1,6 @@
 package ru.xpendence.javathonbinaryoptions.dto.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.xpendence.javathonbinaryoptions.dto.UserDto;
 import ru.xpendence.javathonbinaryoptions.entity.User;
 
@@ -9,6 +10,7 @@ import ru.xpendence.javathonbinaryoptions.entity.User;
  * Time: 21:11
  * e-mail: 2262288@gmail.com
  */
+@Component
 public class UserMapper implements AbstractMapper<User, UserDto> {
 
     @Override
