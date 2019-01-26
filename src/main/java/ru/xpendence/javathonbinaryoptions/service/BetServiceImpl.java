@@ -13,7 +13,7 @@ import ru.xpendence.javathonbinaryoptions.repository.BetRepository;
 @Service
 public class BetServiceImpl implements BetService {
 
-    private final BetRepository repository;
+    private BetRepository repository;
 
     @Autowired
     public BetServiceImpl(BetRepository repository) {
