@@ -1,5 +1,8 @@
 package ru.xpendence.javathonbinaryoptions.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Setter;
+import lombok.ToString;
 import ru.xpendence.javathonbinaryoptions.attributes.ActiveType;
 
 import javax.persistence.*;
@@ -13,6 +16,9 @@ import java.util.Objects;
  * Time: 17:37
  * e-mail: 2262288@gmail.com
  */
+@Setter
+@ToString
+@EqualsAndHashCode
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 
@@ -51,21 +57,5 @@ public abstract class AbstractEntity implements Serializable {
     @Column(name = "active")
     public ActiveType getActive() {
         return active;
-    }
-
-    public void setActive(ActiveType active) {
-        this.active = active;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    private void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    private void setUpdated(LocalDateTime updated) {
-        this.updated = updated;
     }
 }

@@ -1,0 +1,10 @@
+package ru.xpendence.javathonbinaryoptions.config;
+
+/**
+ * Author: Vyacheslav Chernyshov
+ * Date: 26.01.19
+ * Time: 17:48
+ * e-mail: 2262288@gmail.com
+ */
+public class MainConfig {
+}
