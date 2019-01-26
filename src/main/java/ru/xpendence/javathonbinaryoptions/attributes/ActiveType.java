@@ -7,6 +7,6 @@ package ru.xpendence.javathonbinaryoptions.attributes;
  * e-mail: 2262288@gmail.com
  */
 public enum ActiveType {
-    ENABLED,
-    DISABLED
+    DISABLED,
+    ENABLED
 }

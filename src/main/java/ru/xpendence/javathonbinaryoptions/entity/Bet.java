@@ -1,6 +1,9 @@
 package ru.xpendence.javathonbinaryoptions.entity;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import ru.xpendence.javathonbinaryoptions.attributes.BetVector;
@@ -19,7 +22,6 @@ import javax.persistence.*;
 @ToString
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @SQLDelete(sql = "UPDATE bets SET active = 0 WHERE id = ?")
 @Where(clause = "active = 1")
 public class Bet extends AbstractEntity {
@@ -29,6 +31,20 @@ public class Bet extends AbstractEntity {
     private Currency currency;
     private BetVector betVector;
     private Long fixRate;
+
+    public Bet(User user,
+               Long amount,
+               Currency currency,
+               BetVector betVector,
+               Long fixRate) {
+        this.user = user;
+        this.amount = amount;
+        this.currency = currency;
+        this.betVector = betVector;
+        this.fixRate = fixRate;
+    }
+
+
 
     /**
      * Пользователь, который делает ставку.

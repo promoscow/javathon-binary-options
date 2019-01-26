@@ -24,9 +24,18 @@ import java.util.List;
 @Where(clause = "active = 1")
 public class User extends AbstractEntity {
 
+    private String name;
     private Long balance;
     private List<Bet> bets;
     private Boolean generated;
+
+    /**
+     * Имя пользователя.
+     */
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
 
     /**
      * Текущий баланс пользователя.

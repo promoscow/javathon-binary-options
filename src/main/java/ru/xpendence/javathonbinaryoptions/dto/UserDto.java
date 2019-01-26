@@ -15,6 +15,7 @@ import java.util.List;
 @Data
 public class UserDto extends AbstractDto {
 
+    private String name;
     private Long balance;
     private List<Long> bets;
     private Boolean generated;
