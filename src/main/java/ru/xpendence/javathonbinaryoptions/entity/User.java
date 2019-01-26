@@ -1,8 +1,8 @@
 package ru.xpendence.javathonbinaryoptions.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,14 +14,28 @@ import java.util.List;
  * e-mail: 2262288@gmail.com
  */
 @Entity
-@Table(name = "currencies")
+@Table(name = "users")
 @EqualsAndHashCode(callSuper = true)
 @ToString
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SQLDelete(sql = "UPDATE users SET active = 0 WHERE id = ?")
+@Where(clause = "active = 1")
 public class User extends AbstractEntity {
 
+    private String name;
     private Long balance;
     private List<Bet> bets;
+    private Boolean generated;
+
+    /**
+     * Имя пользователя.
+     */
+    @Column(name = "name", unique = true)
+    public String getName() {
+        return name;
+    }
 
     /**
      * Текущий баланс пользователя.
@@ -37,5 +51,10 @@ public class User extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     public List<Bet> getBets() {
         return bets;
+    }
+
+    @Column(name = "generated")
+    public Boolean getGenerated() {
+        return generated;
     }
 }

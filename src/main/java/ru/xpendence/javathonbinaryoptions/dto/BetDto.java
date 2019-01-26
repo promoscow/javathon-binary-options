@@ -2,6 +2,10 @@ package ru.xpendence.javathonbinaryoptions.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import ru.xpendence.javathonbinaryoptions.entity.Currency;
+
+import java.time.LocalDateTime;
 
 /**
  * Author: Vyacheslav Chernyshov
@@ -11,11 +15,27 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
 public class BetDto extends AbstractDto {
 
-    private Long user;
+    private Long userId;
     private Long amount;
-    private Long currency;
-    private Long betVector;
+    private Currency currency;
+    private Integer betVector;
     private Long fixRate;
+
+    public BetDto(Long id,
+                  LocalDateTime created,
+                  Long user,
+                  Long amount,
+                  Currency currency,
+                  Integer betVector,
+                  Long fixRate) {
+        super(id, created);
+        this.userId = user;
+        this.amount = amount;
+        this.currency = currency;
+        this.betVector = betVector;
+        this.fixRate = fixRate;
+    }
 }

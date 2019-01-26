@@ -2,9 +2,9 @@ package ru.xpendence.javathonbinaryoptions.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
-
+import java.time.LocalDateTime;
 /**
  * Author: Vyacheslav Chernyshov
  * Date: 26.01.19
@@ -13,9 +13,18 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
 public class CurrencyDto extends AbstractDto {
 
-    private List<Long> bets;
     private String code;
     private Long rate;
+
+    public CurrencyDto(Long id,
+                       LocalDateTime created,
+                       String code,
+                       Long rate) {
+        super(id, created);
+        this.code = code;
+        this.rate = rate;
+    }
 }

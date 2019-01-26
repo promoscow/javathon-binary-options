@@ -1,8 +1,11 @@
 package ru.xpendence.javathonbinaryoptions.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -13,8 +16,25 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
+@NoArgsConstructor
 public class UserDto extends AbstractDto {
 
+    private String name;
     private Long balance;
     private List<Long> bets;
+    private Boolean generated;
+
+    public UserDto(Long id,
+                   LocalDateTime created,
+                   String name,
+                   Long balance,
+                   List<Long> bets,
+                   Boolean generated) {
+        super(id, created);
+        this.name = name;
+        this.balance = balance;
+        this.bets = bets;
+        this.generated = generated;
+    }
 }

@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
 
+import java.util.List;
+
 /**
  * Author: Vyacheslav Chernyshov
  * Date: 26.01.19
@@ -12,4 +14,6 @@ import ru.xpendence.javathonbinaryoptions.entity.Bet;
  */
 @Repository
 public interface BetRepository extends JpaRepository<Bet, Long> {
+
+    List<Bet> findAllByIdIn(List<Long> list);
 }
