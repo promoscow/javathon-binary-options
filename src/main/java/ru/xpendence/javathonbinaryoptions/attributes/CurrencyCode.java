@@ -1,4 +1,4 @@
-package ru.xpendence.javathonbinaryoptions.service;
+package ru.xpendence.javathonbinaryoptions.attributes;
 
 /**
  * Author: Artur Sharafutdinov

@@ -2,6 +2,7 @@ package ru.xpendence.javathonbinaryoptions.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.xpendence.javathonbinaryoptions.attributes.CurrencyCode;
 import ru.xpendence.javathonbinaryoptions.entity.Currency;
 import ru.xpendence.javathonbinaryoptions.repository.CurrencyRepository;
 import yahoofinance.Stock;
