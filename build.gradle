@@ -13,7 +13,6 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'war'
 
 group = 'ru.xpendence'
 version = '0.0.1-SNAPSHOT'
@@ -30,8 +29,34 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
     compileOnly 'org.projectlombok:lombok'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+//    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile group: 'com.yahoofinance-api', name: 'YahooFinanceAPI', version: '3.14.0'
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+}
+
+jar {
+    enabled = true
+    manifest {
+        attributes (
+            'Main-Class': 'ru.xpendence.javathonbinaryoptions.JavathonBinaryOptionsApplication'
+        )
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest.from jar.manifest
+    classifier = 'all'
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
 }

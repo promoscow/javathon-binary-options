@@ -11,8 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         "ru.xpendence.javathonbinaryoptions.service",
         "ru.xpendence.javathonbinaryoptions.repository",
         "ru.xpendence.javathonbinaryoptions.controller",
-        "ru.xpendence.javathonbinaryoptions.dto.mapper",
-        "ru.xpendence.javathonbinaryoptions.scheduled"
+        "ru.xpendence.javathonbinaryoptions.dto.mapper"
 })
 @EnableJpaRepositories
 @EnableScheduling
