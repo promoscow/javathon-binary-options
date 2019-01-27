@@ -46,13 +46,18 @@ public class BetServiceImpl implements BetService {
     @Override
     @Transactional
     public BetDto create(BetDto bet) {
+        log.info("Creating bet {}", bet);
         doBet(bet);
         return mapper.toDto(repository.save(createFixRate(bet)));
     }
 
     @Override
     public List<Bet> getAllActiveBetsExpired() {
-        return repository.findAllByExpiresInBefore(LocalDateTime.now());
+        List<Bet> bets = repository.findAllByExpiresInBefore(LocalDateTime.now());
+        if (!bets.isEmpty()) {
+            log.info("Expired bets found: {}", bets.size());
+        }
+        return bets;
     }
 
     private void doBet(BetDto bet) {
