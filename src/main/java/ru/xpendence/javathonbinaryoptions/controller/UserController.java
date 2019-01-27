@@ -40,4 +40,9 @@ public class UserController {
     public ResponseEntity<List<UserDto>> getTop() {
         return ResponseEntity.ok(service.getTop());
     }
+
+    @GetMapping(value = "/name")
+    public ResponseEntity<UserDto> getByName(String name) {
+        return ResponseEntity.ok(service.getByName(name));
+    }
 }

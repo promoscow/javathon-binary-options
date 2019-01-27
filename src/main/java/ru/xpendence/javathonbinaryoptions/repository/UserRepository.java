@@ -29,4 +29,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User u order by u.balance desc")
     Page<User> findAllByBalanceDesc(Pageable pageable);
+
+    User findByName(String name);
 }
