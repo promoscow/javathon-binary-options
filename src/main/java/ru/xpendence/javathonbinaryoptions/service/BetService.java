@@ -20,4 +20,6 @@ public interface BetService {
     List<BetDto> generate();
 
     void betResult();
+
+    BetDto get(Long id);
 }

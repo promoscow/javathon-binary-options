@@ -109,6 +109,11 @@ public class BetServiceImpl implements BetService {
         }
     }
 
+    @Override
+    public BetDto get(Long id) {
+        return mapper.toDto(repository.getOne(id));
+    }
+
     private Long editBalance(Bet bet, User user, List<Currency> actualCurrencies) {
         BetVector vector = bet.getBetVector();
         Currency currency = actualCurrencies

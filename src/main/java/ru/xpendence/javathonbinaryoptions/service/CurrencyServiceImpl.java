@@ -1,5 +1,6 @@
 package ru.xpendence.javathonbinaryoptions.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.xpendence.javathonbinaryoptions.attributes.CurrencyCode;
@@ -10,7 +11,6 @@ import ru.xpendence.javathonbinaryoptions.repository.CurrencyRepository;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
  * e-mail: sharhack@yahoo.com
  */
 @Service
+@Slf4j
 public class CurrencyServiceImpl implements CurrencyService {
 
     private final CurrencyRepository repository;
@@ -39,13 +40,9 @@ public class CurrencyServiceImpl implements CurrencyService {
         this.mapper = mapper;
     }
 
-    @PostConstruct
-    public void init() {
-//        repository.saveAll(preStartList());
-    }
-
     @Override
     public List<Currency> preStartList() {
+        log.info("Parsing currencies from external server.");
         String[] arrayCode = new String[]{"BTC-USD", "ETH-USD", "XRP-USD", "LTC-USD", "WAVES-USD", "USDRUB=X",
                 "EURRUB=X", "NZDRUB=X", "AUDUSD=X", "USDJPY=X"};
         listCurrency = new ArrayList<>();
@@ -65,6 +62,7 @@ public class CurrencyServiceImpl implements CurrencyService {
             });
 
         });
+        log.info("Currencies parsed: {}", listCurrency.size());
         return listCurrency;
     }
 

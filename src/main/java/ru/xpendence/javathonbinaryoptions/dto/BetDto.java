@@ -1,5 +1,6 @@
 package ru.xpendence.javathonbinaryoptions.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,8 @@ public class BetDto extends AbstractDto {
     private CurrencyDto currency;
     private Integer betVector;
     private Long fixRate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime expiresIn;
 
     public BetDto(Long id,

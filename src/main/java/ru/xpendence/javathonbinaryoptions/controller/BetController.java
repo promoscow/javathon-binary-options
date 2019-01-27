@@ -1,9 +1,9 @@
 package ru.xpendence.javathonbinaryoptions.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ru.xpendence.javathonbinaryoptions.dto.BetDto;
 import ru.xpendence.javathonbinaryoptions.service.BetService;
 
 /**
@@ -22,5 +22,10 @@ public class BetController {
     @Autowired
     public BetController(BetService service) {
         this.service = service;
+    }
+
+    @GetMapping
+    public ResponseEntity<BetDto> get(@RequestParam("id") Long id) {
+        return ResponseEntity.ok(service.get(id));
     }
 }

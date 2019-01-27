@@ -1,5 +1,6 @@
 package ru.xpendence.javathonbinaryoptions.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
  * e-mail: 2262288@gmail.com
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
