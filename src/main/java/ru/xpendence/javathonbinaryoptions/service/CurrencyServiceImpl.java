@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CurrencyServiceImpl implements CurrencyService {
 
-    private final CurrencyRepository repository;
     private final AbstractMapper<Currency, CurrencyDto> mapper;
     private List<Currency> listCurrency;
     private Map<String, Stock> mapCurrency;
@@ -36,7 +35,6 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Autowired
     public CurrencyServiceImpl(CurrencyRepository repository,
                                AbstractMapper<Currency, CurrencyDto> mapper) {
-        this.repository = repository;
         this.mapper = mapper;
     }
 
@@ -53,12 +51,12 @@ public class CurrencyServiceImpl implements CurrencyService {
         }
         mapCurrency.entrySet().parallelStream().forEach(e -> {
             EnumSet.allOf(CurrencyCode.class).forEach(code -> {
-                if(e.getKey().contains(code.name())){
-                Currency currency = new Currency();
-                currency.setCode(code.name());
-                currency.setRate(e.getValue().getQuote().getPrice().longValue());
-                listCurrency.add(currency);
-            }
+                if (e.getKey().contains(code.name())) {
+                    Currency currency = new Currency();
+                    currency.setCode(code.name());
+                    currency.setRate(e.getValue().getQuote().getPrice().longValue());
+                    listCurrency.add(currency);
+                }
             });
 
         });

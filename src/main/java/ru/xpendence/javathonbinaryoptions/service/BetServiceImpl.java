@@ -43,6 +43,7 @@ public class BetServiceImpl implements BetService {
     private final CurrencyRepository currencyRepository;
     private final CurrencyService currencyService;
     private final UserService userService;
+    private final int MINIMAL_BET_VALUE = 100;
 
     @Override
     @Transactional
@@ -147,8 +148,15 @@ public class BetServiceImpl implements BetService {
 
     private BetDto generateBet(List<Currency> allCurr, User user) {
         Currency currency = allCurr.get(current().nextInt(allCurr.size()));
-        long amount = current().nextLong(1, user.getBalance());
-        LocalDateTime expiresIn = LocalDateTime.now().plusSeconds(current().nextInt(1, 10));
-        return new BetDto(user.getId(), amount, currencyMapper.toDto(currency), BetVector.randomVector(), currency.getRate(), expiresIn);
+        Long betAmount = user.getBalance();
+        if (betAmount > MINIMAL_BET_VALUE) {
+            betAmount = getRandomAmount(betAmount);
+        }
+        LocalDateTime expiresIn = LocalDateTime.now().plusSeconds(current().nextInt(5, 30));
+        return new BetDto(user.getId(), betAmount, currencyMapper.toDto(currency), BetVector.randomVector(), currency.getRate(), expiresIn);
+    }
+
+    private long getRandomAmount(Long balance) {
+        return current().nextLong(1, balance);
     }
 }
