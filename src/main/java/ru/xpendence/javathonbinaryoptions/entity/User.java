@@ -29,6 +29,12 @@ public class User extends AbstractEntity {
     private List<Bet> bets;
     private Boolean generated;
 
+    public User(String name, Long balance, Boolean generated) {
+        this.name = name;
+        this.balance = balance;
+        this.generated = generated;
+    }
+
     /**
      * Имя пользователя.
      */
