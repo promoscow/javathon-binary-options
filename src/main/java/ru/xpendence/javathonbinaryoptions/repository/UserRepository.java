@@ -1,9 +1,12 @@
 package ru.xpendence.javathonbinaryoptions.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.xpendence.javathonbinaryoptions.entity.User;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
@@ -14,5 +17,12 @@ import java.util.List;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findAllByGeneratedAndBalanceGreaterThan(boolean generated, int limit);
+
+    @Query(value = "select u from User u where u.generated = :generated and u.balance > :limit")
+    List<User> findAllByGeneratedAndLimit(@Param("generated") boolean generated, @Param("limit") Long limit);
+
+    @Query(value = "select u from User u where u.balance > :limit")
+    List<User> findAllByLimit(@Param("limit") Long limit);
+
+    User findOneByName(String name);
 }

@@ -67,7 +67,7 @@ public class BetServiceImpl implements BetService {
     @Override
     public List<BetDto> generate() {
         List<Currency> allCurr = currencyRepository.findAll();
-        List<User> bots = userRepository.findAllByGeneratedAndBalanceGreaterThan(true, 0);
+        List<User> bots = userRepository.findAllByGeneratedAndLimit(true, 0L);
         List<Bet> generatedBets = bots.stream()
                 .map(user -> generateBet(allCurr, user))
                 .collect(Collectors.toList());

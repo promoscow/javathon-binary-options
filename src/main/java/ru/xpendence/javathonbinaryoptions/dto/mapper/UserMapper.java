@@ -1,7 +1,9 @@
 package ru.xpendence.javathonbinaryoptions.dto.mapper;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.xpendence.javathonbinaryoptions.dto.BetDto;
 import ru.xpendence.javathonbinaryoptions.dto.UserDto;
 import ru.xpendence.javathonbinaryoptions.entity.AbstractEntity;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
@@ -9,6 +11,7 @@ import ru.xpendence.javathonbinaryoptions.entity.User;
 import ru.xpendence.javathonbinaryoptions.repository.BetRepository;
 import ru.xpendence.javathonbinaryoptions.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -20,15 +23,15 @@ import java.util.stream.Collectors;
  * e-mail: 2262288@gmail.com
  */
 @Component
+@AllArgsConstructor
 public class UserMapper implements AbstractMapper<User, UserDto> {
 
     private final UserRepository userRepository;
     private final BetRepository betRepository;
+    private final BetMapper betMapper;
 
-    @Autowired
-    public UserMapper(UserRepository userRepository, BetRepository betRepository) {
-        this.userRepository = userRepository;
-        this.betRepository = betRepository;
+    public User toNewEntity(UserDto dto) {
+        return new User(dto.getName(), dto.getBalance(), new ArrayList<>(), dto.getGenerated());
     }
 
     @Override

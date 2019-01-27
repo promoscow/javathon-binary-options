@@ -12,11 +12,13 @@ import java.util.List;
  * e-mail: 2262288@gmail.com
  */
 public interface UserService {
-    UserDto createOrUpdate(UserDto user);
+    UserDto create(UserDto user);
 
     UserDto generateUser();
 
-    List<UserDto> getAllActive(boolean generated);
-
     List<User> saveAll(List<User> users);
+
+    List<UserDto> getAllActiveByGenerated(boolean generated);
+
+    List<UserDto> getAllActive();
 }

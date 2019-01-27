@@ -1,7 +1,9 @@
 package ru.xpendence.javathonbinaryoptions.dto.mapper;
 
 import ru.xpendence.javathonbinaryoptions.dto.AbstractDto;
+import ru.xpendence.javathonbinaryoptions.dto.UserDto;
 import ru.xpendence.javathonbinaryoptions.entity.AbstractEntity;
+import ru.xpendence.javathonbinaryoptions.entity.User;
 
 /**
  * Author: Vyacheslav Chernyshov

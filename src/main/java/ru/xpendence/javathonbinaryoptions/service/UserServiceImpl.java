@@ -2,6 +2,7 @@ package ru.xpendence.javathonbinaryoptions.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.xpendence.javathonbinaryoptions.dto.UserDto;
 import ru.xpendence.javathonbinaryoptions.dto.mapper.UserMapper;
 import ru.xpendence.javathonbinaryoptions.entity.User;
@@ -35,6 +36,20 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(updatedUser);
     }
 
+    @Transactional
+    public UserDto create(UserDto user) {
+        User userByName = repository.findOneByName(user.getName());
+        if (userByName != null) {
+            throw new RuntimeException("User already exists");
+        }
+        if (user.getBalance() == null || user.getBalance() == 0) {
+            user.setBalance(DEFAULT_CREATION_BALANCE);
+        }
+        User entity = userMapper.toNewEntity(user);
+        User updatedUser = repository.save(entity);
+        return userMapper.toDto(updatedUser);
+    }
+
     @Override
     public UserDto generateUser() {
         UserDto generatedUser = UserDto.builder().balance(DEFAULT_CREATION_BALANCE).generated(true).build();
@@ -42,8 +57,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllActive(boolean generated) {
-        List<User> users = repository.findAllByGeneratedAndBalanceGreaterThan(generated, 0);
+    public List<UserDto> getAllActiveByGenerated(boolean generated) {
+        List<User> users = repository.findAllByGeneratedAndLimit(generated, 0L);
+        return users.stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDto> getAllActive() {
+        List<User> users = repository.findAllByLimit(0L);
         return users.stream()
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());

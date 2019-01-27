@@ -5,6 +5,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +27,8 @@ public class User extends AbstractEntity {
 
     private String name;
     private Long balance;
-    private List<Bet> bets;
-    private Boolean generated;
+    private List<Bet> bets = new ArrayList<>();
+    private Boolean generated = false;
 
     public User(String name, Long balance, Boolean generated) {
         this.name = name;

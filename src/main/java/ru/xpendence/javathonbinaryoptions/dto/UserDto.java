@@ -14,9 +14,9 @@ import java.util.List;
  * Time: 17:48
  * e-mail: 2262288@gmail.com
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class UserDto extends AbstractDto {
 
     private String name;
