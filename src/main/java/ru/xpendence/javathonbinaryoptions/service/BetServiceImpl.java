@@ -72,6 +72,9 @@ public class BetServiceImpl implements BetService {
 
     private Bet createFixRate(BetDto bet) {
         Bet entity = mapper.toEntity(bet);
+        if (Objects.isNull(bet.getCurrency())) {
+            throw new BetException("Currency is null");
+        }
         entity.setFixRate(bet.getCurrency().getRate());
         return entity;
     }
