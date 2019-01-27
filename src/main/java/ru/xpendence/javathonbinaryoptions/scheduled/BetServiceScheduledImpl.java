@@ -1,5 +1,6 @@
 package ru.xpendence.javathonbinaryoptions.scheduled;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import ru.xpendence.javathonbinaryoptions.service.CurrencyService;
 import ru.xpendence.javathonbinaryoptions.service.UserService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
  * e-mail: 2262288@gmail.com
  */
 @Service
+@Slf4j
 public class BetServiceScheduledImpl implements BetServiceScheduled {
 
     private final BetService betService;
@@ -42,16 +45,19 @@ public class BetServiceScheduledImpl implements BetServiceScheduled {
     @Override
     @Transactional
     public void betResult() {
+        log.info("Processing bet results.");
         List<Bet> expired = betService.getAllActiveBetsExpired();
-        List<Currency> actualCurrencies = currencyService.preStartList();
-        userService.saveAll(expired
-                .stream()
-                .map(e -> {
-                    User user = e.getUser();
-                    user.setBalance(editBalance(e, user, actualCurrencies));
-                    return user;
-                })
-                .collect(Collectors.toList()));
+        if (Objects.nonNull(expired) && !expired.isEmpty()) {
+            List<Currency> actualCurrencies = currencyService.preStartList();
+            userService.saveAll(expired
+                    .stream()
+                    .map(e -> {
+                        User user = e.getUser();
+                        user.setBalance(editBalance(e, user, actualCurrencies));
+                        return user;
+                    })
+                    .collect(Collectors.toList()));
+        }
     }
 
     private Long editBalance(Bet bet, User user, List<Currency> actualCurrencies) {
