@@ -29,7 +29,7 @@ public enum BetVector {
         return id;
     }
 
-    public static BetVector randomVector() {
-        return VALUES.get(RANDOM.nextInt(SIZE));
+    public static Integer randomVector() {
+        return VALUES.get(RANDOM.nextInt(SIZE)).id;
     }
 }

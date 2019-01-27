@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.xpendence.javathonbinaryoptions.attributes.BetVector;
 import ru.xpendence.javathonbinaryoptions.dto.BetDto;
 import ru.xpendence.javathonbinaryoptions.dto.mapper.BetMapper;
+import ru.xpendence.javathonbinaryoptions.dto.mapper.CurrencyMapper;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
 import ru.xpendence.javathonbinaryoptions.entity.Currency;
 import ru.xpendence.javathonbinaryoptions.entity.User;
@@ -20,7 +21,6 @@ import ru.xpendence.javathonbinaryoptions.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import static java.util.concurrent.ThreadLocalRandom.current;
@@ -38,6 +38,7 @@ public class BetServiceImpl implements BetService {
 
     private final BetRepository repository;
     private final BetMapper mapper;
+    private final CurrencyMapper currencyMapper;
     private final UserRepository userRepository;
     private final CurrencyRepository currencyRepository;
     private final CurrencyService currencyService;
@@ -61,7 +62,7 @@ public class BetServiceImpl implements BetService {
     }
 
     private void doBet(BetDto bet) {
-        User user = userRepository.getOne(bet.getId());
+        User user = userRepository.getOne(bet.getUserId());
         Long balance = user.getBalance();
         if (balance < bet.getAmount()) {
             throw new BetException("Not much money to perform bet.");
@@ -86,11 +87,10 @@ public class BetServiceImpl implements BetService {
         List<Currency> allCurr = currencyService.preStartList();
         currencyRepository.saveAll(allCurr);
         List<User> bots = userRepository.findAllByGeneratedAndLimit(true, 0L);
-        List<Bet> generatedBets = bots.stream()
+        return bots.stream()
                 .map(user -> generateBet(allCurr, user))
+                .map(this::create)
                 .collect(Collectors.toList());
-        List<Bet> bets = repository.saveAll(generatedBets);
-        return mapper.toDto(bets);
     }
 
     @Scheduled(initialDelayString = "${bet.result.initial.delay}", fixedDelayString = "${bet.result.fixed.delay}")
@@ -139,8 +139,10 @@ public class BetServiceImpl implements BetService {
         return rate.equals(fixRate) ? BetVector.DRAW : rate > fixRate ? BetVector.DOWN : BetVector.UP;
     }
 
-    private Bet generateBet(List<Currency> allCurr, User user) {
+    private BetDto generateBet(List<Currency> allCurr, User user) {
         Currency currency = allCurr.get(current().nextInt(allCurr.size()));
-        return new Bet(user, current().nextLong(1, user.getBalance()), currency, BetVector.randomVector(), currency.getRate(), LocalDateTime.now().plusMinutes(new Random().nextInt(3) + 1));
+        long amount = current().nextLong(1, user.getBalance());
+        LocalDateTime expiresIn = LocalDateTime.now().plusSeconds(current().nextInt(1, 10));
+        return new BetDto(user.getId(), amount, currencyMapper.toDto(currency), BetVector.randomVector(), currency.getRate(), expiresIn);
     }
 }

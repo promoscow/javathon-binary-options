@@ -46,12 +46,14 @@ public class BetMapper implements AbstractMapper<Bet, BetDto> {
     @Override
     @Transactional
     public Bet toEntity(BetDto dto) {
-        if (Objects.isNull(dto) || Objects.isNull(dto.getId())) {
+        if (Objects.isNull(dto)) {
             return null;
         }
-        Bet bet = betRepository.getOne(dto.getId());
-        if (Objects.isNull(bet)) {
-            return null;
+        Bet bet = null;
+        if (dto.getId() != null) {
+            bet = betRepository.getOne(dto.getId());
+        } else {
+            bet = new Bet();
         }
         bet.setId(dto.getId());
         bet.setAmount(dto.getAmount());
