@@ -36,7 +36,7 @@ public class UserController {
         return ResponseEntity.ok(service.getAllActive());
     }
 
-    @GetMapping(value = "/top")
+    @RequestMapping(value = "/top", method = RequestMethod.GET)
     public ResponseEntity<List<UserDto>> getTop() {
         return ResponseEntity.ok(service.getTop());
     }
