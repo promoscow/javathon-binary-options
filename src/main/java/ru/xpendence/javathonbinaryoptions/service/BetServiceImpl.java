@@ -62,12 +62,15 @@ public class BetServiceImpl implements BetService {
     }
 
     private void doBet(BetDto bet) {
+        log.info("<- Bet amount is {} for user {}", bet.getAmount(), bet.getUserId());
         User user = userRepository.getOne(bet.getUserId());
         Long balance = user.getBalance();
         if (balance < bet.getAmount()) {
             throw new BetException("Not much money to perform bet.");
         }
+        log.info("<- User balance is {} for user {}", user.getBalance(), user.getId());
         user.setBalance(user.getBalance() - bet.getAmount());
+        log.info("<- New balance is {} for user {}", user.getBalance(), user.getId());
         userRepository.save(user);
     }
 
@@ -126,13 +129,16 @@ public class BetServiceImpl implements BetService {
                 .orElseThrow(() -> new CurrencyException("No such currency"));
         BetVector actualVector = checkActualVector(currency.getRate(), bet.getFixRate());
         if (vector.equals(actualVector)) {
+            log.info("-> User {} win!", user.getId());
             return calculatePriceForWin(bet, user);
         }
         return user.getBalance();
     }
 
     private long calculatePriceForWin(Bet bet, User user) {
-        return user.getBalance() + bet.getAmount() * 180 / 100;
+        long newBalance = user.getBalance() + bet.getAmount() * 2;
+        log.info("-> New balance for user {} is {}", user.getId(), newBalance);
+        return newBalance;
     }
 
     private BetVector checkActualVector(Long rate, Long fixRate) {
