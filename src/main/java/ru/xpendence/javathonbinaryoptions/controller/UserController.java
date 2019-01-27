@@ -1,6 +1,7 @@
 package ru.xpendence.javathonbinaryoptions.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.xpendence.javathonbinaryoptions.dto.UserDto;
 import ru.xpendence.javathonbinaryoptions.service.UserService;
@@ -31,7 +32,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<UserDto> getAllActiveUsers() {
-        return service.getAllActive();
+    public ResponseEntity<List<UserDto>> getAllActiveUsers() {
+        return ResponseEntity.ok(service.getAllActive());
+    }
+
+    @GetMapping(value = "/top")
+    public ResponseEntity<List<UserDto>> getTop() {
+        return ResponseEntity.ok(service.getTop());
     }
 }

@@ -3,6 +3,7 @@ package ru.xpendence.javathonbinaryoptions.service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,6 +82,12 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDto> getTop() {
+        return repository.findAllByBalanceDesc(PageRequest.of(0, 10))
+                .get().map(userMapper::toDto).collect(Collectors.toList());
     }
 
     @Override

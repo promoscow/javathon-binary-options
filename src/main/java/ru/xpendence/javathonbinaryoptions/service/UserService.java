@@ -21,4 +21,6 @@ public interface UserService {
     List<UserDto> getAllActiveByGenerated(boolean generated);
 
     List<UserDto> getAllActive();
+
+    List<UserDto> getTop();
 }
