@@ -35,6 +35,7 @@ public class BetServiceImpl implements BetService {
     private final BetMapper mapper;
     private final UserRepository userRepository;
     private final CurrencyRepository currencyRepository;
+    private final CurrencyService currencyService;
 
     @Override
     @Transactional
@@ -65,8 +66,9 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
+    @Transactional
     public List<BetDto> generate() {
-        List<Currency> allCurr = currencyRepository.findAll();
+        List<Currency> allCurr = currencyService.preStartList();
         List<User> bots = userRepository.findAllByGeneratedAndLimit(true, 0L);
         List<Bet> generatedBets = bots.stream()
                 .map(user -> generateBet(allCurr, user))

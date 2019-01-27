@@ -5,10 +5,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.xpendence.javathonbinaryoptions.dto.BetDto;
+import ru.xpendence.javathonbinaryoptions.dto.mapper.AbstractMapper;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
 import ru.xpendence.javathonbinaryoptions.entity.Currency;
 import ru.xpendence.javathonbinaryoptions.entity.User;
 import ru.xpendence.javathonbinaryoptions.repository.UserRepository;
+import ru.xpendence.javathonbinaryoptions.service.BetService;
 import ru.xpendence.javathonbinaryoptions.service.CurrencyService;
 import ru.xpendence.javathonbinaryoptions.service.UserService;
 
@@ -25,7 +28,6 @@ import java.util.stream.Stream;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@EnableJpaRepositories
 public class AbstractTest {
 
     @Autowired
@@ -37,6 +39,12 @@ public class AbstractTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BetService betService;
+
+    @Autowired
+    private AbstractMapper<Bet, BetDto> betMapper;
+
     List<Currency> currencies;
     List<User> users;
     List<Bet> bets;
@@ -46,6 +54,13 @@ public class AbstractTest {
         currencies = currencyService.preStartList();
         currencies.forEach(System.out::println);
         users = generateUsers();
+        users.forEach(System.out::println);
+        bets = generateBets();
+        bets.forEach(System.out::println);
+    }
+
+    private List<Bet> generateBets() {
+        return betService.generate().stream().map(betMapper::toEntity).collect(Collectors.toList());
     }
 
     private List<User> generateUsers() {
