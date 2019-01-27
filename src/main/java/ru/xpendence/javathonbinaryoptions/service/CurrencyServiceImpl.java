@@ -32,7 +32,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     private List<Currency> listCurrency;
     private String currencyCode;
     private String[] arrayCode;
-    private int increment=10;
+    private int increment;
     private Map<String, Stock> mapCurrency;
 
     @Autowired
@@ -51,6 +51,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     public List<Currency> preStartList() {
         arrayCode = new String[10];
         listCurrency = new ArrayList<>();
+        increment=10;
         EnumSet.allOf(CurrencyCode.class).forEach(code -> {
             increment--;
             if (code.toString().length() < 6) {
@@ -78,7 +79,7 @@ public class CurrencyServiceImpl implements CurrencyService {
             });
 
         });
-        increment = 10;
+        //increment = 10;
         return listCurrency;
     }
 
