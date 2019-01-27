@@ -41,7 +41,7 @@ public class BetServiceScheduledImpl implements BetServiceScheduled {
         this.userService = userService;
     }
 
-    @Scheduled(initialDelay = 30000, fixedDelay = 10000)
+    @Scheduled(initialDelayString = "${bet.result.initial.delay}", fixedDelayString = "${bet.result.fixed.delay}")
     @Override
     @Transactional
     public void betResult() {
