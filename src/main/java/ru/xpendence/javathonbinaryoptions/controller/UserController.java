@@ -32,6 +32,6 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<UserDto> getAllActiveUsers() {
-        return service.getAllActiveByGenerated(false);
+        return service.getAllActive();
     }
 }

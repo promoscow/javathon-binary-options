@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(updatedUser);
     }
 
-    @Scheduled(initialDelay = 30000, fixedDelay = 15000)
+    @Scheduled(initialDelay = 10000, fixedDelay = 15000)
     @Override
     public UserDto generateUser() {
         UserDto generatedUser = UserDto.builder().name(generateName()).balance(DEFAULT_CREATION_BALANCE).generated(true).build();
