@@ -30,9 +30,6 @@ public class CurrencyServiceImpl implements CurrencyService {
     private final CurrencyRepository repository;
     private final AbstractMapper<Currency, CurrencyDto> mapper;
     private List<Currency> listCurrency;
-    private String currencyCode;
-    private String[] arrayCode;
-    private int increment;
     private Map<String, Stock> mapCurrency;
 
     @Autowired
@@ -49,20 +46,9 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public List<Currency> preStartList() {
-        arrayCode = new String[10];
+        String[] arrayCode = new String[]{"BTC-USD", "ETH-USD", "XRP-USD", "LTC-USD", "WAVES-USD", "USDRUB=X",
+                "EURRUB=X", "NZDRUB=X", "AUDUSD=X", "USDJPY=X"};
         listCurrency = new ArrayList<>();
-        increment=10;
-        EnumSet.allOf(CurrencyCode.class).forEach(code -> {
-            increment--;
-            if (code.toString().length() < 6) {
-                currencyCode = code + "-USD";
-            } else {
-                currencyCode = code + "=X";
-            }
-            arrayCode[increment] = currencyCode;
-
-
-        });
         try {
             mapCurrency = YahooFinance.get(arrayCode);
         } catch (IOException e) {
@@ -79,7 +65,6 @@ public class CurrencyServiceImpl implements CurrencyService {
             });
 
         });
-        increment = 10;
         return listCurrency;
     }
 
