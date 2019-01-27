@@ -78,6 +78,7 @@ public class CurrencyServiceImpl implements CurrencyService {
             });
 
         });
+        increment = 10;
         return listCurrency;
     }
 

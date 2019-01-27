@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import ru.xpendence.javathonbinaryoptions.dto.BetDto;
 import ru.xpendence.javathonbinaryoptions.dto.mapper.AbstractMapper;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
@@ -50,13 +51,11 @@ public class AbstractTest {
     List<Bet> bets;
 
     @Before
+    @Transactional
     public void init() {
         currencies = currencyService.preStartList();
-        currencies.forEach(System.out::println);
         users = generateUsers();
-        users.forEach(System.out::println);
         bets = generateBets();
-        bets.forEach(System.out::println);
     }
 
     private List<Bet> generateBets() {

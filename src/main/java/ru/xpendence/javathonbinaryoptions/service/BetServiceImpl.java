@@ -69,6 +69,7 @@ public class BetServiceImpl implements BetService {
     @Transactional
     public List<BetDto> generate() {
         List<Currency> allCurr = currencyService.preStartList();
+        currencyRepository.saveAll(allCurr);
         List<User> bots = userRepository.findAllByGeneratedAndLimit(true, 0L);
         List<Bet> generatedBets = bots.stream()
                 .map(user -> generateBet(allCurr, user))

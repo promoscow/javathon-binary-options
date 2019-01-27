@@ -100,6 +100,9 @@ public class Bet extends AbstractEntity {
         return fixRate;
     }
 
+    /**
+     * Время действия ставки.
+     */
     @Column(name = "expires_in")
     public LocalDateTime getExpiresIn() {
         return expiresIn;

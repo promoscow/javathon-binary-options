@@ -2,6 +2,7 @@ package ru.xpendence.javathonbinaryoptions.dto.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.xpendence.javathonbinaryoptions.attributes.BetVector;
 import ru.xpendence.javathonbinaryoptions.dto.BetDto;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
@@ -39,6 +40,7 @@ public class BetMapper implements AbstractMapper<Bet, BetDto> {
     }
 
     @Override
+    @Transactional
     public Bet toEntity(BetDto dto) {
         if (Objects.isNull(dto) || Objects.isNull(dto.getId())) {
             return null;

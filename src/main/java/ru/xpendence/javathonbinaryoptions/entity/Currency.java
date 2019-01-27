@@ -4,9 +4,8 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Author: Vyacheslav Chernyshov
@@ -27,6 +26,7 @@ public class Currency extends AbstractEntity {
 
     private String code;
     private Long rate;
+    private List<Bet> bets;
 
     @Column(name = "code")
     public String getCode() {
@@ -36,5 +36,10 @@ public class Currency extends AbstractEntity {
     @Column(name = "rate")
     public Long getRate() {
         return rate;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "currency")
+    public List<Bet> getBets() {
+        return bets;
     }
 }
