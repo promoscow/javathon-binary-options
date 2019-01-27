@@ -30,7 +30,7 @@ public class UserController {
         return service.create(userDto);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<UserDto> getAllActiveUsers() {
         return service.getAllActive();
     }
