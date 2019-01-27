@@ -18,4 +18,6 @@ public interface BetService {
     List<Bet> getAllActiveBetsExpired();
 
     List<BetDto> generate();
+
+    void betResult();
 }

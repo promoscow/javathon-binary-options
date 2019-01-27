@@ -1,6 +1,7 @@
 package ru.xpendence.javathonbinaryoptions.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,12 +12,14 @@ import ru.xpendence.javathonbinaryoptions.entity.Bet;
 import ru.xpendence.javathonbinaryoptions.entity.Currency;
 import ru.xpendence.javathonbinaryoptions.entity.User;
 import ru.xpendence.javathonbinaryoptions.exception.BetException;
+import ru.xpendence.javathonbinaryoptions.exception.CurrencyException;
 import ru.xpendence.javathonbinaryoptions.repository.BetRepository;
 import ru.xpendence.javathonbinaryoptions.repository.CurrencyRepository;
 import ru.xpendence.javathonbinaryoptions.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,7 @@ import static java.util.concurrent.ThreadLocalRandom.current;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class BetServiceImpl implements BetService {
 
     private final BetRepository repository;
@@ -37,6 +41,7 @@ public class BetServiceImpl implements BetService {
     private final UserRepository userRepository;
     private final CurrencyRepository currencyRepository;
     private final CurrencyService currencyService;
+    private final UserService userService;
 
     @Override
     @Transactional
@@ -78,6 +83,47 @@ public class BetServiceImpl implements BetService {
                 .collect(Collectors.toList());
         List<Bet> bets = repository.saveAll(generatedBets);
         return mapper.toDto(bets);
+    }
+
+    @Scheduled(initialDelayString = "${bet.result.initial.delay}", fixedDelayString = "${bet.result.fixed.delay}")
+    @Override
+    @Transactional
+    public void betResult() {
+        log.info("Processing bet results.");
+        List<Bet> expired = getAllActiveBetsExpired();
+        if (Objects.nonNull(expired) && !expired.isEmpty()) {
+            List<Currency> actualCurrencies = currencyService.preStartList();
+            userService.saveAll(expired
+                    .stream()
+                    .map(e -> {
+                        User user = e.getUser();
+                        user.setBalance(editBalance(e, user, actualCurrencies));
+                        return user;
+                    })
+                    .collect(Collectors.toList()));
+        }
+    }
+
+    private Long editBalance(Bet bet, User user, List<Currency> actualCurrencies) {
+        BetVector vector = bet.getBetVector();
+        Currency currency = actualCurrencies
+                .stream()
+                .filter(c -> c.getCode().equals(bet.getCurrency().getCode()))
+                .findFirst()
+                .orElseThrow(() -> new CurrencyException("No such currency"));
+        BetVector actualVector = checkActualVector(currency.getRate(), bet.getFixRate());
+        if (vector.equals(actualVector)) {
+            return calculatePriceForWin(bet, user);
+        }
+        return user.getBalance();
+    }
+
+    private long calculatePriceForWin(Bet bet, User user) {
+        return user.getBalance() + bet.getAmount() * 180 / 100;
+    }
+
+    private BetVector checkActualVector(Long rate, Long fixRate) {
+        return rate.equals(fixRate) ? BetVector.DRAW : rate > fixRate ? BetVector.DOWN : BetVector.UP;
     }
 
     private Bet generateBet(List<Currency> allCurr, User user) {

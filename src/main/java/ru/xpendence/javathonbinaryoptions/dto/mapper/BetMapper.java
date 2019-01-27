@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.xpendence.javathonbinaryoptions.attributes.BetVector;
 import ru.xpendence.javathonbinaryoptions.dto.BetDto;
+import ru.xpendence.javathonbinaryoptions.dto.CurrencyDto;
 import ru.xpendence.javathonbinaryoptions.entity.Bet;
 import ru.xpendence.javathonbinaryoptions.entity.Currency;
 import ru.xpendence.javathonbinaryoptions.entity.User;
@@ -29,14 +30,17 @@ public class BetMapper implements AbstractMapper<Bet, BetDto> {
     private final BetRepository betRepository;
     private final UserRepository userRepository;
     private final CurrencyRepository currencyRepository;
+    private final AbstractMapper<Currency, CurrencyDto> currencyMapper;
 
     @Autowired
     public BetMapper(BetRepository betRepository,
                      UserRepository userRepository,
-                     CurrencyRepository currencyRepository) {
+                     CurrencyRepository currencyRepository,
+                     AbstractMapper<Currency, CurrencyDto> currencyMapper) {
         this.betRepository = betRepository;
         this.userRepository = userRepository;
         this.currencyRepository = currencyRepository;
+        this.currencyMapper = currencyMapper;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class BetMapper implements AbstractMapper<Bet, BetDto> {
         bet.setCreated(dto.getCreated());
         bet.setFixRate(dto.getFixRate());
         bet.setBetVector(createBetVector(dto.getBetVector()));
-        bet.setCurrency(dto.getCurrency());
+        bet.setCurrency(currencyMapper.toEntity(dto.getCurrency()));
         bet.setUser(createUser(dto.getUserId()));
         bet.setExpiresIn(dto.getExpiresIn());
         return bet;
@@ -79,7 +83,7 @@ public class BetMapper implements AbstractMapper<Bet, BetDto> {
                 entity.getCreated(),
                 Objects.nonNull(entity.getUser()) ? entity.getUser().getId() : null,
                 entity.getAmount(),
-                Objects.nonNull(entity.getCurrency()) ? entity.getCurrency() : null,
+                Objects.nonNull(entity.getCurrency()) ? currencyMapper.toDto(entity.getCurrency()) : null,
                 entity.getBetVector().getId(),
                 entity.getFixRate(),
                 entity.getExpiresIn()
