@@ -33,5 +33,5 @@ dependencies {
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile group: 'com.yahoofinance-api', name: 'YahooFinanceAPI', version: '3.14.0'
-
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
 }

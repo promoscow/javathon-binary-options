@@ -1,6 +1,8 @@
 package ru.xpendence.javathonbinaryoptions.service;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.xpendence.javathonbinaryoptions.dto.UserDto;
@@ -9,6 +11,7 @@ import ru.xpendence.javathonbinaryoptions.entity.User;
 import ru.xpendence.javathonbinaryoptions.repository.UserRepository;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final UserMapper userMapper;
     private final Long DEFAULT_CREATION_BALANCE = 1000L;
+    private final Random random = new Random();
 
     @Autowired
     public UserServiceImpl(UserRepository repository, UserMapper userMapper) {
@@ -50,10 +54,15 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(updatedUser);
     }
 
+    @Scheduled(initialDelay = 30000, fixedDelay = 15000)
     @Override
     public UserDto generateUser() {
-        UserDto generatedUser = UserDto.builder().balance(DEFAULT_CREATION_BALANCE).generated(true).build();
-        return createOrUpdate(generatedUser);
+        UserDto generatedUser = UserDto.builder().name(generateName()).balance(DEFAULT_CREATION_BALANCE).generated(true).build();
+        return create(generatedUser);
+    }
+
+    public String generateName() {
+        return RandomStringUtils.random(10, true, false);
     }
 
     @Override

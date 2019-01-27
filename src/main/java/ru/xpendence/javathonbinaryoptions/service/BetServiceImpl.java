@@ -1,6 +1,7 @@
 package ru.xpendence.javathonbinaryoptions.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.xpendence.javathonbinaryoptions.attributes.BetVector;
@@ -67,6 +68,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     @Transactional
+    @Scheduled(initialDelay = 30000, fixedDelay = 15000)
     public List<BetDto> generate() {
         List<Currency> allCurr = currencyService.preStartList();
         currencyRepository.saveAll(allCurr);

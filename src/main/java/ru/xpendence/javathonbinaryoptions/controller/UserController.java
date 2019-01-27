@@ -1,10 +1,7 @@
 package ru.xpendence.javathonbinaryoptions.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.xpendence.javathonbinaryoptions.dto.UserDto;
 import ru.xpendence.javathonbinaryoptions.service.UserService;
 
@@ -17,6 +14,7 @@ import java.util.List;
  * e-mail: 2262288@gmail.com
  */
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/user")
 public class UserController {
 

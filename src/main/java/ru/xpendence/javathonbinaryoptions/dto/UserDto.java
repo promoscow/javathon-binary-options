@@ -38,7 +38,7 @@ public class UserDto extends AbstractDto {
     }
 
     @Builder
-    public UserDto(Long balance, Boolean generated) {
+    public UserDto(String name, Long balance, Boolean generated) {
         this.balance = balance;
         this.generated = generated;
     }
